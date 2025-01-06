@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .subject, .unit {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .subject:hover, .unit:hover {
+            background-color: #f0f0f0;
+        }
+        .hidden {
+            display: none;
+        }
+        .notes-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        .notes-section a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .notes-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subjects and Notes</h1>
+        <!-- Subject List -->
+        <div id="subjects">
+            <div class="subject" onclick="showUnits('subject1')">Mathematics</div>
+            <div class="subject" onclick="showUnits('subject2')">Physics</div>
+            <div class="subject" onclick="showUnits('subject3')">Chemistry</div>
+        </div>
+        
+        <!-- Units List -->
+        <div id="units" class="hidden">
+            <h2>Units</h2>
+            <div id="unitList"></div>
+        </div>
+        
+        <!-- Notes Section -->
+        <div id="notes" class="hidden notes-section">
+            <h3>Unit Notes</h3>
+            <p id="noteText">This is the note content for the selected unit.</p>
+            <a id="downloadLink" href="#" download>Download PDF</a>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            subject1: {
+                name: "Mathematics",
+                units: [
+                    { name: "Algebra", notes: "https://robotis.tiiny.site" },
+                    { name: "Geometry", notes: "geometry_notes.pdf" }
+                ]
+            },
+            subject2: {
+                name: "Physics",
+                units: [
+                    { name: "Mechanics", notes: "https://drive.google.com/file/d/10bT-CcySEBDFRS5u-URK0mUvKfg2PrRv/view?usp=sharing" },
+                    { name: "Optics", notes: "https://drive.google.com/file/d/10bT-CcySEBDFRS5u-URK0mUvKfg2PrRv/view?usp=sharing" }
+                ]
+            },
+            subject3: {
+                name: "Chemistry",
+                units: [
+                    { name: "Organic Chemistry", notes: "https://drive.google.com/file/d/10bT-CcySEBDFRS5u-URK0mUvKfg2PrRv/view?usp=sharing" },
+                    { name: "Inorganic Chemistry", notes: "https://drive.google.com/file/d/10bT-CcySEBDFRS5u-URK0mUvKfg2PrRv/view?usp=sharing" }
+                ]
+            }
+        };
+
+        function showUnits(subjectKey) {
+            const subjectData = data[subjectKey];
+            const unitList = document.getElementById('unitList');
+            unitList.innerHTML = ''; // Clear previous units
+            subjectData.units.forEach(unit => {
+                const unitDiv = document.createElement('div');
+                unitDiv.className = 'unit';
+                unitDiv.textContent = unit.name;
+                unitDiv.onclick = () => showNotes(unit);
+                unitList.appendChild(unitDiv);
+            });
+            document.getElementById('units').classList.remove('hidden');
+            document.getElementById('notes').classList.add('hidden');
+        }
+
+        function showNotes(unit) {
+            document.getElementById('noteText').textContent = `You are viewing notes for ${unit.name}.`;
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = unit.notes; // Update the download link
+            downloadLink.textContent = `Download ${unit.name} Notes`;
+            document.getElementById('notes').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
